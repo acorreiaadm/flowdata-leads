@@ -1,1 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlowData Leads</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
+  <header class="topo">
+    <div>
+      <h1>FlowData Leads</h1>
+      <p>Mini CRM de prospecção para encontrar clientes com presença digital fraca.</p>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="cards">
+      <div class="card">
+        <h3>Total de Leads</h3>
+        <span id="totalLeads">0</span>
+      </div>
+
+      <div class="card quente">
+        <h3>Leads Quentes</h3>
+        <span id="leadsQuentes">0</span>
+      </div>
+
+      <div class="card medio">
+        <h3>Leads Médios</h3>
+        <span id="leadsMedios">0</span>
+      </div>
+
+      <div class="card frio">
+        <h3>Leads Frios</h3>
+        <span id="leadsFrios">0</span>
+      </div>
+    </section>
+
+    <section class="formulario">
+      <h2>Cadastrar Lead</h2>
+
+      <form id="leadForm">
+        <input type="text" id="empresa" placeholder="Nome da empresa" required />
+        <input type="text" id="cidade" placeholder="Cidade" required />
+
+        <select id="nicho" required>
+          <option value="">Selecione o nicho</option>
+          <option value="Clínica Odontológica">Clínica Odontológica</option>
+          <option value="Fisioterapia">Fisioterapia</option>
+          <option value="Clínica de Estética">Clínica de Estética</option>
+          <option value="Imobiliária">Imobiliária</option>
+          <option value="Distribuidora">Distribuidora</option>
+          <option value="Agropecuária">Agropecuária</option>
+        </select>
+
+        <input type="text" id="telefone" placeholder="WhatsApp / telefone" />
+        <input type="url" id="site" placeholder="Site da empresa" />
+        <input type="url" id="instagram" placeholder="Instagram" />
+        <input type="url" id="googleMaps" placeholder="Link do Google Maps" />
+
+        <select id="status">
+          <option value="Novo">Novo</option>
+          <option value="Contatado">Contatado</option>
+          <option value="Respondeu">Respondeu</option>
+          <option value="Proposta enviada">Proposta enviada</option>
+          <option value="Fechado">Fechado</option>
+          <option value="Perdido">Perdido</option>
+        </select>
+
+        <textarea id="observacoes" placeholder="Observações sobre o lead"></textarea>
+
+        <button type="submit">Salvar Lead</button>
+      </form>
+    </section>
+
+    <section class="filtros">
+      <h2>Filtrar Leads</h2>
+
+      <input type="text" id="filtroCidade" placeholder="Filtrar por cidade" />
+
+      <select id="filtroNicho">
+        <option value="">Todos os nichos</option>
+        <option value="Clínica Odontológica">Clínica Odontológica</option>
+        <option value="Fisioterapia">Fisioterapia</option>
+        <option value="Clínica de Estética">Clínica de Estética</option>
+        <option value="Imobiliária">Imobiliária</option>
+        <option value="Distribuidora">Distribuidora</option>
+        <option value="Agropecuária">Agropecuária</option>
+      </select>
+
+      <select id="filtroStatus">
+        <option value="">Todos os status</option>
+        <option value="Novo">Novo</option>
+        <option value="Contatado">Contatado</option>
+        <option value="Respondeu">Respondeu</option>
+        <option value="Proposta enviada">Proposta enviada</option>
+        <option value="Fechado">Fechado</option>
+        <option value="Perdido">Perdido</option>
+      </select>
+    </section>
+
+    <section class="lista">
+      <h2>Leads Cadastrados</h2>
+      <div id="listaLeads"></div>
+    </section>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
