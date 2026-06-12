@@ -487,6 +487,7 @@ function renderizarTudo() {
   renderizarLeads();
   atualizarDashboard();
   atualizarFunil();
+  renderizarKanban();
 }
 
 [filtroCidade, filtroNicho, filtroStatus, filtroPotencial].forEach(function (filtro) {
@@ -497,3 +498,58 @@ function renderizarTudo() {
 });
 
 renderizarTudo();
+
+function renderizarKanban() {
+
+    const novo = document.getElementById("colunaLeadNovo");
+    const contato = document.getElementById("colunaContato");
+    const interessado = document.getElementById("colunaInteressado");
+    const proposta = document.getElementById("colunaProposta");
+    const fechado = document.getElementById("colunaFechado");
+
+    if(!novo) return;
+
+    novo.innerHTML = "";
+    contato.innerHTML = "";
+    interessado.innerHTML = "";
+    proposta.innerHTML = "";
+    fechado.innerHTML = "";
+
+    leads.forEach(lead => {
+
+        const card = document.createElement("div");
+
+        card.className = "kanban-card";
+
+        card.innerHTML = `
+            <h4>${lead.empresa}</h4>
+            <p>${lead.cidade}</p>
+            <p>${lead.potencialVenda}</p>
+        `;
+
+        switch(lead.status){
+
+            case "Lead Novo":
+                novo.appendChild(card);
+                break;
+
+            case "Primeiro Contato":
+                contato.appendChild(card);
+                break;
+
+            case "Interessado":
+                interessado.appendChild(card);
+                break;
+
+            case "Proposta":
+                proposta.appendChild(card);
+                break;
+
+            case "Fechado":
+                fechado.appendChild(card);
+                break;
+        }
+
+    });
+
+}
