@@ -273,5 +273,26 @@ button:hover {
 
   .topo h1 {
     font-size: 30px;
+.importacao {
+  background: #111827;
+  padding: 25px;
+  border-radius: 18px;
+  margin-bottom: 25px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.importacao p {
+  color: #d1d5db;
+  margin-bottom: 15px;
+}
+
+.importacao input {
+  margin-bottom: 12px;
+}
+
+.importacao button {
+  width: 100%;
+  grid-column: auto;
+}
   }
 }
