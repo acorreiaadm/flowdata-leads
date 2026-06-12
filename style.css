@@ -412,3 +412,20 @@ textarea {
   margin-bottom: 10px;
   border-left: 4px solid #dc2626;
 }
+.kanban-card {
+  cursor: grab;
+}
+
+.kanban-card:active {
+  cursor: grabbing;
+}
+
+.arrastando {
+  opacity: 0.5;
+  transform: scale(0.98);
+}
+
+.coluna-hover {
+  outline: 2px dashed #dc2626;
+  background: rgba(220, 38, 38, 0.08);
+}
