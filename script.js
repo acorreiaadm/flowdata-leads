@@ -500,56 +500,76 @@ function renderizarTudo() {
 renderizarTudo();
 
 function renderizarKanban() {
+  const colunas = {
+    "Lead Novo": document.getElementById("colunaLeadNovo"),
+    "Primeiro Contato": document.getElementById("colunaContato"),
+    "Interessado": document.getElementById("colunaInteressado"),
+    "Proposta": document.getElementById("colunaProposta"),
+    "Fechado": document.getElementById("colunaFechado")
+  };
 
-    const novo = document.getElementById("colunaLeadNovo");
-    const contato = document.getElementById("colunaContato");
-    const interessado = document.getElementById("colunaInteressado");
-    const proposta = document.getElementById("colunaProposta");
-    const fechado = document.getElementById("colunaFechado");
+  Object.values(colunas).forEach(coluna => {
+    if (coluna) coluna.innerHTML = "";
+  });
 
-    if(!novo) return;
+  leads.forEach(lead => {
+    const card = document.createElement("div");
+    card.className = "kanban-card";
+    card.draggable = true;
+    card.dataset.id = lead.id;
 
-    novo.innerHTML = "";
-    contato.innerHTML = "";
-    interessado.innerHTML = "";
-    proposta.innerHTML = "";
-    fechado.innerHTML = "";
+    card.innerHTML = `
+      <h4>${lead.empresa}</h4>
+      <p>${lead.cidade}</p>
+      <p>${lead.potencialVenda}</p>
+    `;
 
-    leads.forEach(lead => {
-
-        const card = document.createElement("div");
-
-        card.className = "kanban-card";
-
-        card.innerHTML = `
-            <h4>${lead.empresa}</h4>
-            <p>${lead.cidade}</p>
-            <p>${lead.potencialVenda}</p>
-        `;
-
-        switch(lead.status){
-
-            case "Lead Novo":
-                novo.appendChild(card);
-                break;
-
-            case "Primeiro Contato":
-                contato.appendChild(card);
-                break;
-
-            case "Interessado":
-                interessado.appendChild(card);
-                break;
-
-            case "Proposta":
-                proposta.appendChild(card);
-                break;
-
-            case "Fechado":
-                fechado.appendChild(card);
-                break;
-        }
-
+    card.addEventListener("dragstart", function () {
+      card.classList.add("arrastando");
     });
 
+    card.addEventListener("dragend", function () {
+      card.classList.remove("arrastando");
+    });
+
+    const coluna = colunas[lead.status];
+
+    if (coluna) {
+      coluna.appendChild(card);
+    }
+  });
+
+  Object.keys(colunas).forEach(status => {
+    const coluna = colunas[status];
+
+    if (!coluna) return;
+
+    coluna.addEventListener("dragover", function (event) {
+      event.preventDefault();
+      coluna.classList.add("coluna-hover");
+    });
+
+    coluna.addEventListener("dragleave", function () {
+      coluna.classList.remove("coluna-hover");
+    });
+
+    coluna.addEventListener("drop", function (event) {
+      event.preventDefault();
+
+      const cardArrastando = document.querySelector(".arrastando");
+
+      if (!cardArrastando) return;
+
+      const id = Number(cardArrastando.dataset.id);
+      const lead = leads.find(item => item.id === id);
+
+      if (lead) {
+        lead.status = status;
+        salvarLeads();
+        renderizarTudo();
+      }
+
+      coluna.classList.remove("coluna-hover");
+    });
+  });
 }
