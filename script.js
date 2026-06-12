@@ -7,20 +7,28 @@ const filtroCidade = document.getElementById("filtroCidade");
 const filtroNicho = document.getElementById("filtroNicho");
 const filtroStatus = document.getElementById("filtroStatus");
 
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
+form.addEventListener("submit", function (event) {
+  event.preventDefault();
 
   const lead = {
     id: Date.now(),
-    empresa: document.getElementById("empresa").value,
-    cidade: document.getElementById("cidade").value,
-    nicho: document.getElementById("nicho").value,
-    telefone: document.getElementById("telefone").value,
-    site: document.getElementById("site").value,
-    instagram: document.getElementById("instagram").value,
-    googleMaps: document.getElementById("googleMaps").value,
-    status: document.getElementById("status").value,
-    observacoes: document.getElementById("observacoes").value,
+    empresa: pegarValor("empresa"),
+    cidade: pegarValor("cidade"),
+    nicho: pegarValor("nicho"),
+    telefone: pegarValor("telefone"),
+    site: pegarValor("site"),
+    instagram: pegarValor("instagram"),
+    googleMaps: pegarValor("googleMaps"),
+    status: pegarValor("status"),
+    servico: pegarValor("servico"),
+    valor: pegarValor("valor"),
+    problemas: pegarValor("problemas"),
+    observacoes: pegarValor("observacoes"),
+    temSite: document.getElementById("temSite").checked,
+    temWhatsapp: document.getElementById("temWhatsapp").checked,
+    instagramAtivo: document.getElementById("instagramAtivo").checked,
+    googleAtualizado: document.getElementById("googleAtualizado").checked,
+    identidadeVisual: document.getElementById("identidadeVisual").checked,
     data: new Date().toLocaleDateString("pt-BR")
   };
 
@@ -28,6 +36,7 @@ form.addEventListener("submit", function (e) {
   lead.potencial = classificarPotencial(lead.notaDigital);
 
   leads.push(lead);
+
   salvarLeads();
   renderizarLeads();
   atualizarDashboard();
@@ -35,14 +44,18 @@ form.addEventListener("submit", function (e) {
   form.reset();
 });
 
+function pegarValor(id) {
+  return document.getElementById(id).value.trim();
+}
+
 function calcularNotaDigital(lead) {
   let nota = 0;
 
-  if (lead.site) nota += 3;
-  if (lead.instagram) nota += 2;
-  if (lead.telefone) nota += 2;
-  if (lead.googleMaps) nota += 2;
-  if (lead.observacoes.length > 10) nota += 1;
+  if (lead.temSite) nota += 2;
+  if (lead.temWhatsapp) nota += 2;
+  if (lead.instagramAtivo) nota += 2;
+  if (lead.googleAtualizado) nota += 2;
+  if (lead.identidadeVisual) nota += 2;
 
   return nota;
 }
@@ -64,7 +77,7 @@ function renderizarLeads() {
   const nichoFiltro = filtroNicho.value;
   const statusFiltro = filtroStatus.value;
 
-  const leadsFiltrados = leads.filter(lead => {
+  const leadsFiltrados = leads.filter(function (lead) {
     return (
       lead.cidade.toLowerCase().includes(cidadeFiltro) &&
       (nichoFiltro === "" || lead.nicho === nichoFiltro) &&
@@ -77,7 +90,7 @@ function renderizarLeads() {
     return;
   }
 
-  leadsFiltrados.forEach(lead => {
+  leadsFiltrados.forEach(function (lead) {
     const div = document.createElement("div");
     div.className = "lead";
 
@@ -92,8 +105,11 @@ function renderizarLeads() {
       <p><strong>Nicho:</strong> ${lead.nicho}</p>
       <p><strong>Telefone:</strong> ${lead.telefone || "Não informado"}</p>
       <p><strong>Status:</strong> ${lead.status}</p>
-      <p><strong>Data:</strong> ${lead.data}</p>
+      <p><strong>Serviço indicado:</strong> ${lead.servico}</p>
+      <p><strong>Valor sugerido:</strong> ${lead.valor || "Não informado"}</p>
+      <p><strong>Problemas:</strong> ${lead.problemas || "Não informado"}</p>
       <p><strong>Observações:</strong> ${lead.observacoes || "Sem observações"}</p>
+      <p><strong>Data:</strong> ${lead.data}</p>
 
       <div class="acoes">
         ${lead.telefone ? `<a class="btn-whats" target="_blank" href="${gerarLinkWhatsApp(lead)}">WhatsApp</a>` : ""}
@@ -116,19 +132,26 @@ function gerarLinkWhatsApp(lead) {
   const mensagem = `
 Olá, tudo bem? Me chamo Adriele, sou da FlowData.
 
-Analisei rapidamente a presença digital da ${lead.empresa} e percebi algumas oportunidades de melhoria que podem ajudar vocês a receberem mais contatos pelo WhatsApp.
+Fiz uma análise rápida da presença digital da ${lead.empresa} e percebi alguns pontos que podem estar reduzindo contatos pelo WhatsApp.
 
-Posso te mostrar uma análise gratuita e objetiva?
-  `;
+Principais pontos observados:
+${lead.problemas || "Presença digital com oportunidades de melhoria."}
+
+Acredito que o serviço de ${lead.servico} pode ajudar vocês a melhorarem a apresentação online e aumentarem a confiança dos clientes.
+
+Posso te mostrar essa análise gratuita?
+`;
 
   return `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
 }
 
 function alterarStatus(id) {
-  const lead = leads.find(item => item.id === id);
+  const lead = leads.find(function (item) {
+    return item.id === id;
+  });
 
   const novoStatus = prompt(
-    "Digite o novo status: Novo, Contatado, Respondeu, Proposta enviada, Fechado ou Perdido",
+    "Digite o novo status: Lead Novo, Primeiro Contato, Interessado, Reunião, Proposta, Fechado ou Perdido",
     lead.status
   );
 
@@ -144,7 +167,10 @@ function excluirLead(id) {
   const confirmar = confirm("Tem certeza que deseja excluir este lead?");
 
   if (confirmar) {
-    leads = leads.filter(lead => lead.id !== id);
+    leads = leads.filter(function (lead) {
+      return lead.id !== id;
+    });
+
     salvarLeads();
     renderizarLeads();
     atualizarDashboard();
