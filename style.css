@@ -5,29 +5,28 @@
 }
 
 body {
-  background: #080d18;
+  background: #070b14;
   color: #fff;
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .topo {
-  background: linear-gradient(135deg, #111827, #7f1d1d);
   padding: 35px 8%;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  background: linear-gradient(135deg, #111827, #7f1d1d);
 }
 
 .topo h1 {
-  font-size: 34px;
-  margin-bottom: 8px;
+  font-size: 38px;
 }
 
 .topo p {
-  color: #ddd;
+  margin-top: 8px;
+  color: #e5e7eb;
 }
 
 .container {
   width: 90%;
-  max-width: 1200px;
+  max-width: 1250px;
   margin: 30px auto;
 }
 
@@ -35,52 +34,47 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 18px;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
 }
 
-.card {
-  background: #111827;
-  padding: 22px;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.08);
-}
-
-.card h3 {
-  font-size: 15px;
-  color: #ccc;
-  margin-bottom: 10px;
-}
-
-.card span {
-  font-size: 32px;
-  font-weight: bold;
-}
-
-.quente {
-  border-left: 5px solid #22c55e;
-}
-
-.medio {
-  border-left: 5px solid #facc15;
-}
-
-.frio {
-  border-left: 5px solid #ef4444;
-}
-
+.card,
 .formulario,
 .filtros,
 .lista {
   background: #111827;
-  padding: 25px;
   border-radius: 18px;
-  margin-bottom: 25px;
   border: 1px solid rgba(255,255,255,0.08);
+}
+
+.card {
+  padding: 22px;
+}
+
+.card h3 {
+  color: #d1d5db;
+  font-size: 15px;
+}
+
+.card span {
+  display: block;
+  margin-top: 12px;
+  font-size: 34px;
+  font-weight: bold;
+}
+
+.quente { border-left: 5px solid #22c55e; }
+.medio { border-left: 5px solid #facc15; }
+.frio { border-left: 5px solid #ef4444; }
+
+.formulario,
+.filtros,
+.lista {
+  padding: 26px;
+  margin-bottom: 25px;
 }
 
 h2 {
   margin-bottom: 18px;
-  color: #fff;
 }
 
 form {
@@ -96,14 +90,14 @@ textarea {
   padding: 13px;
   border-radius: 10px;
   border: 1px solid #374151;
-  background: #0b1220;
+  background: #080f1f;
   color: #fff;
   outline: none;
 }
 
 textarea {
   grid-column: span 2;
-  min-height: 90px;
+  min-height: 85px;
   resize: vertical;
 }
 
@@ -113,19 +107,34 @@ button {
   border: none;
   border-radius: 10px;
   background: #dc2626;
-  color: #fff;
+  color: white;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.3s;
 }
 
 button:hover {
   background: #b91c1c;
 }
 
+.checklist {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  background: #080f1f;
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid #374151;
+}
+
+.checklist label {
+  font-size: 14px;
+  color: #d1d5db;
+}
+
 .filtros {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 14px;
 }
 
@@ -134,16 +143,16 @@ button:hover {
 }
 
 .lead {
-  background: #0b1220;
-  padding: 18px;
+  background: #080f1f;
+  padding: 20px;
   border-radius: 14px;
   margin-bottom: 15px;
   border: 1px solid rgba(255,255,255,0.08);
 }
 
 .lead h3 {
+  font-size: 22px;
   margin-bottom: 8px;
-  color: #fff;
 }
 
 .lead p {
@@ -154,71 +163,62 @@ button:hover {
 
 .badge {
   display: inline-block;
-  padding: 5px 10px;
+  padding: 6px 11px;
   border-radius: 20px;
   font-size: 12px;
-  margin: 6px 0;
+  margin: 8px 0;
   font-weight: bold;
 }
 
 .badge.quente {
   background: #14532d;
   color: #86efac;
-  border: none;
 }
 
-.badge.medio {
+.badge.médio {
   background: #713f12;
   color: #fde68a;
-  border: none;
 }
 
 .badge.frio {
   background: #7f1d1d;
   color: #fecaca;
-  border: none;
 }
 
 .acoes {
-  margin-top: 12px;
   display: flex;
   gap: 10px;
+  margin-top: 12px;
   flex-wrap: wrap;
 }
 
-.acoes button,
-.acoes a {
+.acoes a,
+.acoes button {
+  grid-column: auto;
   padding: 9px 12px;
   border-radius: 8px;
+  color: white;
   text-decoration: none;
   font-size: 13px;
-  color: #fff;
   border: none;
-  cursor: pointer;
 }
 
-.btn-whats {
-  background: #16a34a;
-}
+.btn-whats { background: #16a34a; }
+.btn-status { background: #2563eb; }
+.btn-excluir { background: #dc2626; }
 
-.btn-excluir {
-  background: #dc2626;
-}
-
-.btn-status {
-  background: #2563eb;
-}
-
-@media (max-width: 800px) {
+@media (max-width: 850px) {
   .cards,
   form,
-  .filtros {
+  .filtros,
+  .checklist {
     grid-template-columns: 1fr;
   }
 
   textarea,
   button,
-  .filtros h2 {
+  .filtros h2,
+  .checklist {
     grid-column: span 1;
   }
 }
