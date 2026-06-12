@@ -1,4 +1,4 @@
-let leads = JSON.parse(localStorage.getItem("flowdataLeadsV3")) || [];
+let leads = JSON.parse(localStorage.getItem("flowdataLeadsV4")) || [];
 
 const form = document.getElementById("leadForm");
 const listaLeads = document.getElementById("listaLeads");
@@ -7,6 +7,9 @@ const filtroCidade = document.getElementById("filtroCidade");
 const filtroNicho = document.getElementById("filtroNicho");
 const filtroStatus = document.getElementById("filtroStatus");
 const filtroPotencial = document.getElementById("filtroPotencial");
+
+const csvFile = document.getElementById("csvFile");
+const btnImportar = document.getElementById("btnImportar");
 
 form.addEventListener("submit", function (event) {
   event.preventDefault();
@@ -48,6 +51,24 @@ form.addEventListener("submit", function (event) {
   atualizarDashboard();
 
   form.reset();
+});
+
+btnImportar.addEventListener("click", function () {
+  const arquivo = csvFile.files[0];
+
+  if (!arquivo) {
+    alert("Selecione um arquivo CSV primeiro.");
+    return;
+  }
+
+  const leitor = new FileReader();
+
+  leitor.onload = function (event) {
+    const conteudo = event.target.result;
+    importarCSV(conteudo);
+  };
+
+  leitor.readAsText(arquivo, "UTF-8");
 });
 
 function valor(id) {
@@ -107,7 +128,66 @@ function gerarDiagnostico(lead) {
 }
 
 function salvarLeads() {
-  localStorage.setItem("flowdataLeadsV3", JSON.stringify(leads));
+  localStorage.setItem("flowdataLeadsV4", JSON.stringify(leads));
+}
+
+function importarCSV(conteudo) {
+  const linhas = conteudo.split("\n").filter(linha => linha.trim() !== "");
+
+  if (linhas.length <= 1) {
+    alert("CSV vazio ou inválido.");
+    return;
+  }
+
+  const cabecalho = linhas[0].split(",").map(coluna => coluna.trim());
+
+  for (let i = 1; i < linhas.length; i++) {
+    const valores = linhas[i].split(",").map(valor => valor.trim());
+
+    const dados = {};
+
+    cabecalho.forEach(function (coluna, index) {
+      dados[coluna] = valores[index] || "";
+    });
+
+    const lead = {
+      id: Date.now() + i,
+      empresa: dados.empresa || "Empresa sem nome",
+      cidade: dados.cidade || "",
+      nicho: dados.nicho || "Outro",
+      telefone: dados.telefone || "",
+      site: dados.site || "",
+      instagram: dados.instagram || "",
+      googleMaps: dados.googleMaps || "",
+      origem: "CSV",
+      status: "Lead Novo",
+      servico: "Landing Page + Google Business",
+      valorProposta: dados.valor || "",
+      proximoContato: "",
+      problemas: "Lead importado via CSV. Avaliação manual pendente.",
+      observacoes: "",
+      temSite: dados.site ? true : false,
+      temWhatsapp: dados.telefone ? true : false,
+      instagramAtivo: dados.instagram ? true : false,
+      googleAtualizado: dados.googleMaps ? true : false,
+      identidadeVisual: false,
+      data: new Date().toLocaleDateString("pt-BR")
+    };
+
+    lead.notaDigital = calcularNotaDigital(lead);
+    lead.potencialVenda = calcularPotencialVenda(lead.notaDigital);
+    lead.diagnostico = gerarDiagnostico(lead);
+
+    leads.push(lead);
+  }
+
+  salvarLeads();
+  renderizarLeads();
+  atualizarDashboard();
+
+  csvFile.value = "";
+
+  alert("Leads importados com sucesso!");
 }
 
 function renderizarLeads() {
