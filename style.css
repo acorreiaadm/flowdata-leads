@@ -10,49 +10,107 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.topo {
-  background: linear-gradient(135deg, #111827, #7f1d1d);
-  padding: 35px 8%;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+.app {
+  display: flex;
+  min-height: 100vh;
 }
 
-.topo h1 {
-  font-size: 38px;
-  margin-bottom: 8px;
+.sidebar {
+  width: 260px;
+  background: #080f1f;
+  border-right: 1px solid rgba(255,255,255,0.08);
+  padding: 24px;
+  position: fixed;
+  height: 100vh;
 }
 
-.topo p {
+.brand {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 35px;
+}
+
+.logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: #dc2626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.brand h1 {
+  font-size: 22px;
+}
+
+.brand p,
+.descricao {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu a {
   color: #d1d5db;
+  text-decoration: none;
+  padding: 12px;
+  border-radius: 10px;
 }
 
-.container {
-  width: 92%;
-  max-width: 1400px;
-  margin: 30px auto;
+.menu a:hover {
+  background: #111827;
+  color: #fff;
+}
+
+.main {
+  margin-left: 260px;
+  width: calc(100% - 260px);
+  padding: 28px;
+}
+
+.topbar,
+.section {
+  background: #111827;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 18px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.topbar h2,
+.section h2 {
+  margin-bottom: 8px;
 }
 
 .cards {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 18px;
-  margin-bottom: 25px;
+  gap: 16px;
 }
 
 .card {
-  background: #111827;
-  padding: 22px;
-  border-radius: 18px;
+  background: #08101f;
+  border-radius: 16px;
+  padding: 20px;
   border: 1px solid rgba(255,255,255,0.08);
 }
 
 .card h3 {
   color: #d1d5db;
-  font-size: 15px;
-  margin-bottom: 12px;
+  font-size: 14px;
+  margin-bottom: 10px;
 }
 
 .card span {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: bold;
 }
 
@@ -72,21 +130,41 @@ body {
   border-left: 5px solid #3b82f6;
 }
 
-.formulario,
-.filtros,
-.lista {
-  background: #111827;
-  padding: 25px;
-  border-radius: 18px;
-  margin-bottom: 25px;
+.funil {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 14px;
+}
+
+.etapa {
+  background: #08101f;
+  border-radius: 14px;
+  padding: 16px;
+  text-align: center;
   border: 1px solid rgba(255,255,255,0.08);
 }
 
-h2 {
-  margin-bottom: 18px;
+.etapa p {
+  color: #d1d5db;
+  font-size: 13px;
+  margin-bottom: 8px;
 }
 
-form {
+.etapa strong {
+  font-size: 26px;
+}
+
+.fechado {
+  border-left: 5px solid #22c55e;
+}
+
+.import-box {
+  margin-top: 15px;
+  display: flex;
+  gap: 12px;
+}
+
+.form-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 14px;
@@ -100,7 +178,7 @@ textarea {
   border-radius: 10px;
   border: 1px solid #374151;
   background: #08101f;
-  color: white;
+  color: #fff;
   outline: none;
 }
 
@@ -118,37 +196,44 @@ textarea {
 
 .checklist {
   grid-column: span 2;
+  background: #08101f;
+  border: 1px solid #374151;
+  border-radius: 12px;
+  padding: 15px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  background: #08101f;
-  padding: 15px;
-  border-radius: 12px;
-  border: 1px solid #374151;
+  gap: 10px;
 }
 
 .checklist label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
   color: #d1d5db;
   font-size: 14px;
 }
 
-button {
-  grid-column: span 2;
+.btn-primary,
+#importacao button,
+.acoes button,
+.acoes a {
   border: none;
-  padding: 14px;
+  padding: 12px 14px;
   border-radius: 10px;
-  cursor: pointer;
+  color: #fff;
   font-weight: bold;
-  background: #dc2626;
-  color: white;
-  transition: 0.3s;
+  cursor: pointer;
+  text-decoration: none;
 }
 
-button:hover {
+.btn-primary {
+  grid-column: span 2;
+  background: #dc2626;
+}
+
+.btn-primary:hover {
   background: #b91c1c;
+}
+
+#importacao button {
+  background: #dc2626;
 }
 
 .filtros {
@@ -157,35 +242,36 @@ button:hover {
   gap: 14px;
 }
 
-.filtros h2 {
-  grid-column: span 4;
+.lista-leads {
+  display: grid;
+  gap: 16px;
 }
 
 .lead {
   background: #08101f;
-  padding: 20px;
-  border-radius: 15px;
-  margin-bottom: 15px;
   border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 20px;
 }
 
 .lead h3 {
-  font-size: 24px;
+  font-size: 22px;
   margin-bottom: 8px;
 }
 
 .lead p {
-  margin-bottom: 6px;
   color: #d1d5db;
+  margin-bottom: 6px;
+  font-size: 14px;
 }
 
 .badge {
   display: inline-block;
+  margin: 8px 0;
   padding: 6px 12px;
-  border-radius: 25px;
+  border-radius: 30px;
   font-size: 12px;
   font-weight: bold;
-  margin: 8px 0;
 }
 
 .badge.alto {
@@ -205,9 +291,9 @@ button:hover {
 
 .diagnostico {
   margin-top: 12px;
-  padding: 12px;
-  background: rgba(59,130,246,0.12);
+  padding: 14px;
   border-left: 4px solid #3b82f6;
+  background: rgba(59,130,246,0.12);
   border-radius: 10px;
 }
 
@@ -216,21 +302,10 @@ button:hover {
 }
 
 .acoes {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
   margin-top: 14px;
-}
-
-.acoes a,
-.acoes button {
-  padding: 10px 14px;
-  border-radius: 8px;
-  border: none;
-  color: white;
-  text-decoration: none;
-  cursor: pointer;
-  font-size: 13px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .btn-whats {
@@ -241,58 +316,43 @@ button:hover {
   background: #2563eb;
 }
 
+.btn-pdf {
+  background: #7c3aed;
+}
+
 .btn-excluir {
   background: #dc2626;
 }
 
-@media(max-width:1000px) {
-
-  .cards {
-    grid-template-columns: repeat(2, 1fr);
+@media (max-width: 1000px) {
+  .sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
   }
 
-  form,
+  .app {
+    flex-direction: column;
+  }
+
+  .main {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .cards,
+  .funil,
+  .form-grid,
   .filtros,
-  .checklist {
+  .checklist,
+  .import-box {
     grid-template-columns: 1fr;
+    flex-direction: column;
   }
 
   textarea,
-  button,
   .checklist,
-  .filtros h2 {
+  .btn-primary {
     grid-column: span 1;
-  }
-}
-
-@media(max-width:600px) {
-
-  .cards {
-    grid-template-columns: 1fr;
-  }
-
-  .topo h1 {
-    font-size: 30px;
-.importacao {
-  background: #111827;
-  padding: 25px;
-  border-radius: 18px;
-  margin-bottom: 25px;
-  border: 1px solid rgba(255,255,255,0.08);
-}
-
-.importacao p {
-  color: #d1d5db;
-  margin-bottom: 15px;
-}
-
-.importacao input {
-  margin-bottom: 12px;
-}
-
-.importacao button {
-  width: 100%;
-  grid-column: auto;
-}
   }
 }
