@@ -355,28 +355,52 @@ function importarCSV(conteudo) {
     });
 
     const lead = {
-      id: Date.now() + i,
-      empresa: dados.empresa || "Empresa sem nome",
-      cidade: dados.cidade || "",
-      nicho: dados.nicho || "Outro",
-      telefone: dados.telefone || "",
-      site: dados.site || "",
-      instagram: dados.instagram || "",
-      googleMaps: dados.googleMaps || "",
-      origem: "CSV",
-      status: "Lead Novo",
-      servico: "Landing Page + Google Business",
-      valorProposta: dados.valor || "",
-      proximoContato: "",
-      problemas: "Lead importado via CSV. Avaliação manual pendente.",
-      observacoes: "",
-      temSite: Boolean(dados.site),
-      temWhatsapp: Boolean(dados.telefone),
-      instagramAtivo: Boolean(dados.instagram),
-      googleAtualizado: Boolean(dados.googleMaps),
-      identidadeVisual: false,
-      data: new Date().toLocaleDateString("pt-BR")
-    };
+    id: Date.now() + Math.random(),
+
+    empresa: linha.title || "Empresa sem nome",
+
+    cidade: linha.city || "Não informado",
+
+    nicho:
+      linha["categories/0"] ||
+      linha["categories/1"] ||
+      "Outro",
+
+    telefone: linha.phone || "",
+
+    site: linha.website || "",
+
+    googleMaps: linha.url || "",
+
+    instagram: "",
+
+    origem: "CSV",
+
+    status: "Lead Novo",
+
+    servico:
+      "Landing Page + Google Business",
+
+    valor: "",
+
+    observacoes:
+      "Importado automaticamente via Apify",
+
+    problemas: "",
+
+    temSite: !!linha.website,
+
+    temWhatsapp: !!linha.phone,
+
+    instagramAtivo: false,
+
+    googleAtualizado: false,
+
+    identidadeVisual: false,
+
+    dataCadastro:
+      new Date().toLocaleDateString("pt-BR")
+};
 
     lead.notaDigital = calcularNotaDigital(lead);
     lead.potencialVenda = calcularPotencialVenda(lead.notaDigital);
