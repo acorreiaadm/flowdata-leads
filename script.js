@@ -350,57 +350,59 @@ function importarCSV(conteudo) {
     const valores = parseCSVLine(linhas[i]).map(valor => valor.trim());
 
     const dados = {};
+
     cabecalho.forEach(function (coluna, index) {
       dados[coluna] = valores[index] || "";
     });
 
     const lead = {
-    id: Date.now() + Math.random(),
+      id: Date.now() + i,
 
-    empresa: linha.title || "Empresa sem nome",
+      empresa: dados.empresa || dados.title || dados.name || "Empresa sem nome",
 
-    cidade: linha.city || "Não informado",
+      cidade: dados.cidade || dados.city || "Não informado",
 
-    nicho:
-      linha["categories/0"] ||
-      linha["categories/1"] ||
-      "Outro",
+      nicho:
+        dados.nicho ||
+        dados["categories/0"] ||
+        dados["categories/1"] ||
+        dados.categoryName ||
+        "Outro",
 
-    telefone: linha.phone || "",
+      telefone: dados.telefone || dados.phone || "",
 
-    site: linha.website || "",
+      site: dados.site || dados.website || "",
 
-    googleMaps: linha.url || "",
+      instagram: dados.instagram || "",
 
-    instagram: "",
+      googleMaps: dados.googleMaps || dados.url || "",
 
-    origem: "CSV",
+      origem: "CSV / Apify",
 
-    status: "Lead Novo",
+      status: "Lead Novo",
 
-    servico:
-      "Landing Page + Google Business",
+      servico: "Landing Page + Google Business",
 
-    valor: "",
+      valorProposta: dados.valor || "",
 
-    observacoes:
-      "Importado automaticamente via Apify",
+      proximoContato: "",
 
-    problemas: "",
+      problemas: "Lead importado automaticamente via Apify. Avaliação manual pendente.",
 
-    temSite: !!linha.website,
+      observacoes: "",
 
-    temWhatsapp: !!linha.phone,
+      temSite: Boolean(dados.website || dados.site),
 
-    instagramAtivo: false,
+      temWhatsapp: Boolean(dados.phone || dados.telefone),
 
-    googleAtualizado: false,
+      instagramAtivo: false,
 
-    identidadeVisual: false,
+      googleAtualizado: Boolean(dados.url || dados.googleMaps),
 
-    dataCadastro:
-      new Date().toLocaleDateString("pt-BR")
-};
+      identidadeVisual: false,
+
+      data: new Date().toLocaleDateString("pt-BR")
+    };
 
     lead.notaDigital = calcularNotaDigital(lead);
     lead.potencialVenda = calcularPotencialVenda(lead.notaDigital);
