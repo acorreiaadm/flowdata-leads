@@ -358,24 +358,20 @@ function importarCSV(conteudo) {
     const lead = {
       id: Date.now() + i,
 
-      empresa: dados.empresa || dados.title || dados.name || "Empresa sem nome",
+      empresa: dados["title"] || "Empresa sem nome",
 
-      cidade: dados.cidade || dados.city || "Não informado",
+cidade: dados["city"] || "Não informado",
 
-      nicho:
-        dados.nicho ||
-        dados["categories/0"] ||
-        dados["categories/1"] ||
-        dados.categoryName ||
-        "Outro",
+telefone: dados["phone"] || "",
 
-      telefone: dados.telefone || dados.phone || "",
+site: dados["website"] || "",
 
-      site: dados.site || dados.website || "",
+googleMaps: dados["url"] || "",
 
-      instagram: dados.instagram || "",
-
-      googleMaps: dados.googleMaps || dados.url || "",
+nicho:
+  dados["categories/0"] ||
+  dados["categories/1"] ||
+  "Outro",
 
       origem: "CSV / Apify",
 
